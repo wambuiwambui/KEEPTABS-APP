@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, get_jwt_identity, jwt_required, create_access_token, create_refresh_token
 from flask import Flask, request, jsonify, make_response
 
+
 auth_ns=Namespace('auth',description="A namespace for authentication")
 
 signup_model=auth_ns.model(
@@ -30,7 +31,7 @@ login_model=auth_ns.model(
 @auth_ns.route('/sign-up')
 class SignUp(Resource):
     # @auth_ns.marshal_with(signup_model)
-    # @auth_ns.expect(signup_model)
+    @auth_ns.expect(signup_model)
     def post(self):
         data=request.get_json()
 

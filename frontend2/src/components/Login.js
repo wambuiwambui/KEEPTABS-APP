@@ -1,21 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {Form,Button} from 'react-bootstrap'
 import { Link} from 'react-router-dom'
 import { login } from '../auth'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
+import { BACKEND_URL } from './utility/constants'
 
 
 const Login=()=>{
     
-  const {register,handleSubmit,reset,formState:{errors}}=useForm()
+  const { register, handleSubmit, reset, formState:{errors} } = useForm()
 
-  const history=useHistory()
+  const navigate = useNavigate()
   
 
   const loginUser=(data)=>{
     console.log(data)
-
     const requestOptions={
         method:"POST",
         headers:{
@@ -23,8 +23,8 @@ const Login=()=>{
         },
         body:JSON.stringify(data)
     }
-       
-    fetch('/auth/login',requestOptions)
+
+    fetch(`${BACKEND_URL}/auth/login`, requestOptions)
     .then(res=>res.json())
     .then(data=>{
         console.log(data.access_token)
@@ -32,7 +32,7 @@ const Login=()=>{
         if (data){
          login(data.access_token)
 
-         history.push('/')
+         navigate('/')
         }
         else{
             alert('Invalid username or password')

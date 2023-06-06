@@ -3,12 +3,13 @@ import { Form, Button,Alert } from 'react-bootstrap';
 import '../styles/main.css';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { BACKEND_URL } from './utility/constants.js'
 
   const SignUp = () => {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [show,setShow]=useState(true)
-  const [serverResponse,setServerResponse]=useState('')
+  const [serverResponse, setServerResponse]=useState('')
   const submitForm = (data) => {
     if (data.password === data.confirmPassword) {
       const body = {
@@ -25,7 +26,7 @@ import { useForm } from 'react-hook-form';
         body: JSON.stringify(body)
       };
 
-      fetch('/auth/signup', requestOptions)
+      fetch(`${BACKEND_URL}/auth/signup`, requestOptions)
         .then(res => res.json())
         .then(data => {
           console.log(data)
@@ -33,11 +34,9 @@ import { useForm } from 'react-hook-form';
             console.log(serverResponse)
 
             setShow(true)
-
-
+            reset()
         })
         .catch(err => console.log(err))
-      reset()
         
     } 
       else {

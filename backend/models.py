@@ -42,7 +42,7 @@ class User(db.Model):
     
 
 
-    def __repr(self):
+    def __repr__(self):
        return f"<User {self.username}>"
     
     def save(self):

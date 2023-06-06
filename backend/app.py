@@ -13,7 +13,7 @@ def create_app():
     app=Flask(__name__)
     app.config.from_object('config.DevConfig')
 
-    CORS(app)
+    CORS(app, origins='http://localhost:3000')
 
     db.init_app(app)
 

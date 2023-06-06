@@ -8,4 +8,4 @@ if __name__ == '__main__':
     cli = FlaskGroup(app)
     cli()
 
-    app.run()
+    app.run(port=5000)
