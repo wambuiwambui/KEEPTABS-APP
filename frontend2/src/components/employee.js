@@ -2,33 +2,38 @@ import React, { useState } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
 
 const Employee = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
   const [timeIn, setTimeIn] = useState('');
   const [timeOut, setTimeOut] = useState('');
 
-  const handleTimeInChange = (event) => {
-    setTimeIn(event.target.value);
-  };
-
-  const handleTimeOutChange = (event) => {
-    setTimeOut(event.target.value);
+  const handleToggle = () => {
+    if (loggedIn) {
+      setTimeOut(new Date().toLocaleTimeString()); // Set the current time as time-out
+      setLoggedIn(false);
+    } else {
+      setTimeIn(new Date().toLocaleTimeString()); // Set the current time as time-in
+      setLoggedIn(true);
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     // Create an object with the time data
     const timeData = {
       timeIn: timeIn,
-      timeOut: timeOut
+      timeOut: timeOut,
+      loggedIn: loggedIn,
     };
 
     // Send a POST request to the backend API endpoint
-    axios.post('/api/submitTime', timeData)
-      .then(response => {
+    axios
+      .post('/api/submitTime', timeData)
+      .then((response) => {
         // Handle the response if needed
         console.log(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle any errors
         console.error(error);
       });
@@ -39,28 +44,28 @@ const Employee = () => {
   };
 
   return (
-    <div className='employee'>
+    <div className="employee">
       <h1>TimeStamp</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="timeIn">Time In:</label>
+        <button type="button" onClick={handleToggle}>
+          {loggedIn ? 'Logout' : 'Login'}
+        </button>
+        {loggedIn ? (
           <input
             type="text"
-            id="timeIn"
-            value={timeIn}
-            onChange={handleTimeInChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="timeOut">Time Out:</label>
-          <input
-            type="text"
-            id="timeOut"
             value={timeOut}
-            onChange={handleTimeOutChange}
+            placeholder="Time Out"
+            disabled
           />
-        </div>
-        <button type="submit">Submit</button>
+        ) : (
+          <input
+            type="text"
+            value={timeIn}
+            placeholder="Time In"
+            disabled
+          />
+        )}
+        {loggedIn && <button type="submit">Submit</button>}
       </form>
     </div>
   );

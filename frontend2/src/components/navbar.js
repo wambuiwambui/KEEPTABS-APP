@@ -8,7 +8,8 @@ import { useAuth } from '../auth';
 const NavBar = () => {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
-
+  
+  console.log("isAuthenticated: ", isAuthenticated)
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -16,7 +17,14 @@ const NavBar = () => {
           Homepage
         </Navbar.Brand>
         <Nav className="me-auto">
-          {!isAuthenticated && (
+          <Nav.Link
+            as={Link}
+            to="/employee"
+            active={location.pathname === '/employee'}
+          >
+            Employee
+          </Nav.Link>
+          {!isAuthenticated ? (
             <>
               <Nav.Link
                 as={Link}
@@ -33,24 +41,14 @@ const NavBar = () => {
                 Login
               </Nav.Link>
             </>
-          )}
-          {isAuthenticated && (
-            <>
-              <Nav.Link
-                as={Link}
-                to="/timestamp"
-                active={location.pathname === '/employee'}
-              >
-                employee
-              </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/logout"
-                active={location.pathname === '/logout'}
-              >
-                Logout
-              </Nav.Link>
-            </>
+          ) : (
+            <Nav.Link
+              as={Link}
+              to="/logout"
+              active={location.pathname === '/logout'}
+            >
+              Logout
+            </Nav.Link>
           )}
         </Nav>
       </Container>

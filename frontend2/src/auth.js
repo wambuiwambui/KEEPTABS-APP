@@ -1,11 +1,12 @@
 import { createAuthProvider } from 'react-token-auth'
+import { BACKEND_URL } from './components/utility/constants'
 
 export const { useAuth, authFetch, login, logout } =
     createAuthProvider({
-        accessTokenKey: 'access_token',
-        onUpdateToken: (token) => fetch('/auth/refresh', {
+        getAccessToken: data => data.access_token,
+        onUpdateToken: (data) => fetch(`${BACKEND_URL}/auth/refresh`, {
             method: 'POST',
-            body: token.refresh_token
+            body: data.refresh_token
         })
         .then(r => r.json())
     })
