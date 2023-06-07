@@ -1,9 +1,9 @@
 from flask_restx import Namespace, Resource, fields
 from models import Employee
 from flask import request
-from flask_jwt import jwt_required
+from flask_jwt_extended import jwt_required
 
-employee_ns=Namespace('employee',description="A namespace for ")
+employee_ns=Namespace('employee', description="A namespace for ")
 
 employee_model = employee_ns.model(
     "employee",

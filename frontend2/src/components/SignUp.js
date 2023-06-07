@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import { Form, Button,Alert } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Form, Button, Alert } from 'react-bootstrap';
 import '../styles/main.css';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { BACKEND_URL } from './utility/constants.js'
 
-  const SignUp = () => {
+const SignUp = () => {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const [show,setShow]=useState(true)
-  const [serverResponse, setServerResponse]=useState('')
+  const [show, setShow] = useState(true)
+  const [serverResponse, setServerResponse] = useState('')
   const submitForm = (data) => {
     if (data.password === data.confirmPassword) {
       const body = {
@@ -30,16 +30,14 @@ import { BACKEND_URL } from './utility/constants.js'
         .then(res => res.json())
         .then(data => {
           console.log(data)
-            setServerResponse(data.message);
-            console.log(serverResponse)
-
-            setShow(true)
-            reset()
+          setServerResponse(data.message);
+          console.log(serverResponse)
+          setShow(true)
+          reset()
         })
         .catch(err => console.log(err))
-        
-    } 
-      else {
+    }
+    else {
       alert("Passwords do not match");
     }
   };
@@ -47,17 +45,17 @@ import { BACKEND_URL } from './utility/constants.js'
   return (
     <div className="container">
       <div className="form">
-        
+
         {show}
         <>
-        <h1>Sign Up Page</h1>
-         <Alert variant='success' onClose={() => setShow(false)} dismissible>
-         <p>{serverResponse}</p>
-       </Alert>
+          <h1>Sign Up Page</h1>
+          <Alert variant='success' onClose={() => setShow(false)} dismissible>
+            <p>{serverResponse}</p>
+          </Alert>
 
         </>
-        
-        
+
+
         <Form>
           <Form.Group>
             <Form.Label>Username</Form.Label>
