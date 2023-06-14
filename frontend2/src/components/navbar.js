@@ -3,13 +3,13 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../auth';
+import { useAuth, logout } from '../auth';
 
 const NavBar = () => {
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
+  const logged = useAuth()[0];
   
-  console.log("isAuthenticated: ", isAuthenticated)
+  console.log("isAuthenticated: ", logged)
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -24,7 +24,7 @@ const NavBar = () => {
           >
             Employee
           </Nav.Link>
-          {!isAuthenticated ? (
+          {!logged ? (
             <>
               <Nav.Link
                 as={Link}
@@ -44,8 +44,9 @@ const NavBar = () => {
           ) : (
             <Nav.Link
               as={Link}
-              to="/logout"
+              to="/login"
               active={location.pathname === '/logout'}
+              onClick={logout}
             >
               Logout
             </Nav.Link>

@@ -1,60 +1,131 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requests
+import React, { useState, useEffect } from 'react';
+import { BACKEND_URL } from './utility/constants'
+import { getSession } from '../auth';
 
 const Employee = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [timeIn, setTimeIn] = useState('');
-  const [timeOut, setTimeOut] = useState('');
+  const [accessToken, setAccessToken] = useState();
+  const [todayStatus, setTodayStatus] = useState();
+  const [buttonsDisabled, setButtonStatus] = useState(false)
+  const [timeIn, setTimeIn] = useState(new Date().toLocaleTimeString());
+  const [timeOut, setTimeOut] = useState(new Date().toLocaleTimeString());
 
-  const handleToggle = () => {
-    if (loggedIn) {
-      setTimeOut(new Date().toLocaleTimeString()); // Set the current time as time-out
-      setLoggedIn(false);
-    } else {
-      setTimeIn(new Date().toLocaleTimeString()); // Set the current time as time-in
-      setLoggedIn(true);
-    }
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmitTimeIn = (event) => {
     event.preventDefault();
 
-    // Create an object with the time data
     const timeData = {
-      timeIn: timeIn,
-      timeOut: timeOut,
-      loggedIn: loggedIn,
+      time_in: timeIn
     };
 
-    // Send a POST request to the backend API endpoint
-    axios
-      .post('/api/submitTime', timeData)
-      .then((response) => {
-        // Handle the response if needed
-        console.log(response.data);
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(timeData)
+    }
+
+    fetch(`${BACKEND_URL}/employee/submitTimeIn`, requestOptions)
+      .then((response) => response.json())
+      .then(data => {
+        if (data.message) {
+          alert(data.message)
+        }
+        setTimeIn('');
+        setTodayStatus(true)
       })
       .catch((error) => {
-        // Handle any errors
         console.error(error);
-      });
-
-    // Reset the form
-    setTimeIn('');
-    setTimeOut('');
+      })
   };
+
+  const handleSubmitTimeOut = (event) => {
+    event.preventDefault();
+
+    const timeData = {
+      time_out: timeOut,
+    };
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(timeData)
+    }
+
+    fetch(`${BACKEND_URL}/employee/submitTimeOut`, requestOptions)
+      .then((response) => response.json())
+      .then(data => {
+        if (data.message) {
+          alert(data.message)
+        }
+        setTimeOut('');
+        setButtonStatus(true)
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+  };
+
+  const handleStatusCheck = () => {
+    const unclocked_status = "User yet to clock in"
+    const clocked_in_and_out = "User done for the day"
+    const clocked_in_only = "User had clocked in"
+
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      }
+    }
+
+    fetch(`${BACKEND_URL}/employee/getTodayStatus`, requestOptions)
+      .then((response) => response.json())
+      .then(data => {
+        if (data.message) {
+          if (data.message === unclocked_status){
+            setTodayStatus(false);
+          } else if (data.message === clocked_in_only) {
+            setTodayStatus(true);
+          } else if (data.message === clocked_in_and_out) {
+            setTodayStatus(true)
+            setButtonStatus(true)
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+  }
+
+  useEffect(() => {
+    async function fetchToken(){
+      const { access_token } = await getSession();
+      setAccessToken(access_token)
+    }
+    fetchToken()
+  })
+
+  useEffect(() => {
+    handleStatusCheck()
+  }, [accessToken, buttonsDisabled, todayStatus])
 
   return (
     <div className="employee">
-      <h1>TimeStamp</h1>
-      <form onSubmit={handleSubmit}>
-        <button type="button" onClick={handleToggle}>
-          {loggedIn ? 'Logout' : 'Login'}
-        </button>
-        {loggedIn ? (
+      <h1 className="title">KEEPTABS</h1>
+      <p className="description">
+        Get ready to clock in and rock on with our employee app! We've got your info covered and your time logged, so you can focus on doing what you do best - making work a party!
+      </p>
+      <form>
+        {todayStatus ? (
           <input
             type="text"
             value={timeOut}
             placeholder="Time Out"
+            className="time-input"
             disabled
           />
         ) : (
@@ -62,10 +133,13 @@ const Employee = () => {
             type="text"
             value={timeIn}
             placeholder="Time In"
+            className="time-input"
             disabled
           />
         )}
-        {loggedIn && <button type="submit">Submit</button>}
+        <button hidden={buttonsDisabled} type="button" onClick={todayStatus ? handleSubmitTimeOut : handleSubmitTimeIn} className={`login-btn ${todayStatus ? 'logout' : 'login'}`}>
+          {todayStatus ? 'Time Out' : 'Time In'}
+        </button>
       </form>
     </div>
   );

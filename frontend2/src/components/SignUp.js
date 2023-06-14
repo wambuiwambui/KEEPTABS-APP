@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import '../styles/main.css';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from './utility/constants.js'
+import '../styles/main.css';
 
 const SignUp = () => {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [show, setShow] = useState(true)
   const [serverResponse, setServerResponse] = useState('')
+  const navigate = useNavigate()
   const submitForm = (data) => {
     if (data.password === data.confirmPassword) {
       const body = {
@@ -33,6 +35,7 @@ const SignUp = () => {
           setServerResponse(data.message);
           console.log(serverResponse)
           setShow(true)
+          navigate('/login')
           reset()
         })
         .catch(err => console.log(err))

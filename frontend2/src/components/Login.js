@@ -26,10 +26,10 @@ const Login = () => {
 
     fetch(`${BACKEND_URL}/auth/login`, requestOptions)
       .then(res => res.json())
-      .then(data => {
+      .then((data) => {
         if (data.access_token) {
           login(data)
-          navigate('/')
+          navigate('/employee')
           reset()
         }
         else {
