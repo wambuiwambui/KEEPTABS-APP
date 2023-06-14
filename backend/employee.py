@@ -4,9 +4,11 @@ from models import EmployeeTimeSheet
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
+#creates new namespace for employee time
 employee_ns = Namespace(
     'employee', description="A namespace for employee time data")
 
+#expected input fields for /submitTimein
 employee_in_model = employee_ns.model(
     'employeetimein',
     {
@@ -14,6 +16,7 @@ employee_in_model = employee_ns.model(
     }
 )
 
+#expected input fields for /submitTimeout
 employee_out_model = employee_ns.model(
     'employeetimeout',
     {
@@ -27,16 +30,16 @@ class SubmitTimeIn(Resource):
     @employee_ns.expect(employee_in_model)
     @jwt_required()
     def post(self):
-        data = request.get_json()
-        current_user = get_jwt_identity()
-        time_in = data.get("time_in")
+        data = request.get_json()#retrieves json data from request payload
+        current_user = get_jwt_identity()#gets user identity from jwt token
+        time_in = data.get("time_in")#retrieves time-in value from JSON data
 
         try:
             new_time_in_stamp = EmployeeTimeSheet(
                 time_in=time_in,
                 user_id=current_user
-            )
-            new_time_in_stamp.save()
+            )#creates new time instance
+            new_time_in_stamp.save()#saves time to database
             response = jsonify({"message": f"Time In submitted successfully"})
             response.status_code = 201
             return response
@@ -69,13 +72,13 @@ class SubmitTimeOut(Resource):
             response.status_code = 500
             return response
 
-
+#handles get requests to the getTodayStatus
 @employee_ns.route('/getTodayStatus', methods=['GET'])
 class GetTodayStatus(Resource):
     @employee_ns.expect(employee_out_model)
     @jwt_required()
     def get(self):
-        current_user = get_jwt_identity()
+        current_user = get_jwt_identity()#gets current users identity from jwt
 
         try:
             today = date.today()
