@@ -8,6 +8,7 @@ from flask_cors import CORS
 from auth import auth_ns
 from employee import employee_ns
 
+
 #entry point to Flask
 def create_app():
 
