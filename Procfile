@@ -1,1 +1,1 @@
-web: flask db migrate && flask db upgrade && flask run
+web: flask db upgrade && flask run
