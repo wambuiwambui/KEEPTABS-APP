@@ -19,7 +19,9 @@ const NavBar = () => {
         <Navbar.Brand as={Link} to="/">
           Homepage
         </Navbar.Brand>
+
         <Nav className="me-auto">
+        {logged && (
           <Nav.Link
             as={Link}
             to="/employee"
@@ -27,6 +29,7 @@ const NavBar = () => {
           >
             Employee
           </Nav.Link>
+        )}
           {!logged ? (
             <>
               <Nav.Link
