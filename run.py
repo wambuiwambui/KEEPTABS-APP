@@ -8,4 +8,6 @@ if __name__ == '__main__':
     cli = FlaskGroup(app)
     cli()
 
-    app.run(host='0.0.0.0', port=5000)
+    # Get the port from the environment variable or use a default value
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
