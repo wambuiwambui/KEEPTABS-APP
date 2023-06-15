@@ -5,11 +5,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth, logout } from '../auth';
 
+
 const NavBar = () => {
-  const location = useLocation();
-  const logged = useAuth()[0];
+  const location = useLocation();//access to users current location
+  const logged = useAuth()[0];//info on whether user is logged in or out
   
-  console.log("isAuthenticated: ", logged)
+  console.log("isAuthenticated: ", logged) //logs value of logged
+
+  //xml code on navbar structure
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -57,7 +60,7 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default NavBar; //sets navbar as the default export of the module
 
 
 

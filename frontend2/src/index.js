@@ -25,5 +25,6 @@ const App = () => {
   );
 }
 
+//placeholder to html file 
 ReactDOM.render(<App />, document.getElementById('root'));
 

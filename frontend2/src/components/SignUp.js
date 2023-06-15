@@ -7,8 +7,9 @@ import { BACKEND_URL } from './utility/constants.js'
 import '../styles/main.css';
 
 const SignUp = () => {
-
+  //handles validation management
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  //
   const [show, setShow] = useState(true)
   const [serverResponse, setServerResponse] = useState('')
   const navigate = useNavigate()

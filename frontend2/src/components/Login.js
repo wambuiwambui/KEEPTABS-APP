@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from './utility/constants'
 
-
+//declare login 
 const Login = () => {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm()
@@ -14,6 +14,7 @@ const Login = () => {
   const navigate = useNavigate()
 
 
+  //handles login logic
   const loginUser = (data) => {
     console.log(data)
     const requestOptions = {
@@ -39,6 +40,7 @@ const Login = () => {
       .catch(err => console.log(err))
   }
 
+  //login form structure and appearance
   return (
     <div className="container">
       <div className="form">
