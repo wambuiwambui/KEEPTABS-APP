@@ -11,8 +11,9 @@ import Employee from './components/employee';
 
 const App = () => {
   return (
-    <Router>
-      <div className="">
+    <>
+      <Router>
+      <div className="background">
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -22,6 +23,8 @@ const App = () => {
         </Routes>
       </div>
     </Router>
+    </>
+    
   );
 }
 
