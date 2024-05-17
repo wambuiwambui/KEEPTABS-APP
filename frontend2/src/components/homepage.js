@@ -21,7 +21,7 @@ const HomePage = () => {
         Get ready to clock in and rock on with our employee app! We've got your info covered and your time logged, so you can focus on doing what you do best - making work a party!.
       </p>
       <div className="features">
-      <h2>Key Features of Keeptabs App:</h2>
+      <h3>Key Features of Keeptabs App:</h3>
       <ul>
         <li>Time Tracking:</li>
         <li>Attendance Management</li>
@@ -40,9 +40,24 @@ const HomePage = () => {
         modules={[Pagination, Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide><img src={timeTracker} alt="Time Tracking" height={200} /></SwiperSlide>
-        <SwiperSlide><img src={attendanceManagement} alt="Attendance Management" height={200} /></SwiperSlide>
-        <SwiperSlide><img src={workHour} alt="Work Hour Calculation" height={200} /></SwiperSlide>
+        <SwiperSlide>
+          <div className='sliderImage'>
+            <img src={timeTracker} alt="Time Tracking" height={200} />
+            <h6>Time Tracking</h6>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className='sliderImage'>
+            <img src={attendanceManagement} alt="Attendance Management" height={200} />
+            <h6>Attendance Management</h6>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className='sliderImage'>
+            <img src={workHour} alt="Work Hour Calculation" height={200} />
+            <h6>Work Hour Calculation</h6>
+          </div>
+        </SwiperSlide>
         <SwiperSlide>Slide 4</SwiperSlide>
         <SwiperSlide>Slide 5</SwiperSlide>
       </Swiper>
