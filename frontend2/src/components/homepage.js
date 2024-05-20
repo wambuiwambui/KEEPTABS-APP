@@ -11,6 +11,7 @@ import 'swiper/css/navigation';
 import timeTracker from './images/time-tracking.png'
 import attendanceManagement from './images/attendance-management.png' 
 import workHour from './images/work-hour-calculation.png'
+import confirmedAttendance from './images/Confirmed-attendance-pana.png'
 
 const HomePage = () => {
   return (
@@ -20,13 +21,14 @@ const HomePage = () => {
       <p>
         Get ready to clock in and rock on with our employee app! We've got your info covered and your time logged, so you can focus on doing what you do best - making work a party!.
       </p>
+      <br />
       <div className="features">
       <h3>Key Features of Keeptabs App:</h3>
-      <ul>
+      {/* <ul>
         <li>Time Tracking:</li>
         <li>Attendance Management</li>
         <li>Work Hour Calculation</li>
-      </ul>
+      </ul> */}
     </div>
 
       <Swiper
@@ -48,7 +50,8 @@ const HomePage = () => {
         </SwiperSlide>
         <SwiperSlide>
           <div className='sliderImage'>
-            <img src={attendanceManagement} alt="Attendance Management" height={200} />
+            <img src={confirmedAttendance} alt="confirmed attendance" height={200} />
+            {/* <img src={attendanceManagement} alt="Attendance Management" height={200} /> */}
             <h6>Attendance Management</h6>
           </div>
         </SwiperSlide>

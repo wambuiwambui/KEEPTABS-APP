@@ -11,7 +11,7 @@ const NavBar = () => {
   
   console.log("isAuthenticated: ", logged)
   return (
-    <Navbar bg="dark" variant="dark" id="navbar">
+    <Navbar expand="lg" bg="light" data-bs-theme="light" id="navbar">
       <Container>
         <Navbar.Brand as={Link} to="/">
           Homepage
